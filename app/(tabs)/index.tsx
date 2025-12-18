@@ -14,6 +14,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { MediaType, ImageSize, VideoResolution, AspectRatio, ImageModelId, VideoModelId, Creation } from '@/types';
+import { router } from 'expo-router';
 import { generateImage, generateVideo, analyzeImage, generateSpeech } from '@/lib/gemini-service';
 import { saveCreation } from '@/lib/data-service';
 import { useAuth } from '@/hooks/use-auth';
@@ -178,11 +179,17 @@ export default function StudioScreen() {
         </View>
 
         {/* Prompt Input */}
-        <View style={styles.section}>
-          <ThemedText type="subtitle" style={styles.sectionTitle}>
-            Prompt
-          </ThemedText>
-          <TextInput
+      <View style={styles.section}>
+        <View style={styles.promptHeader}>
+          <ThemedText style={styles.label}>Prompt</ThemedText>
+          <Pressable
+            style={[styles.builderButton, { backgroundColor: tintColor }]}
+            onPress={() => router.push('/prompt-builder' as any)}
+          >
+            <ThemedText style={styles.builderButtonText}>✨ Smart Builder</ThemedText>
+          </Pressable>
+        </View>
+        <TextInput
             style={[
               styles.promptInput,
               { backgroundColor, color: textColor, borderColor },
@@ -350,6 +357,26 @@ const styles = StyleSheet.create({
   },
   section: {
     marginBottom: 24,
+  },
+  promptHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  builderButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 8,
+  },
+  builderButtonText: {
+    color: '#000000',
+    fontSize: 12,
+    fontWeight: '600',
   },
   sectionTitle: {
     marginBottom: 12,

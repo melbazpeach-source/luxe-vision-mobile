@@ -15,6 +15,7 @@ import { useThemeColor } from '@/hooks/use-theme-color';
 import { useAuth } from '@/hooks/use-auth';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { router } from 'expo-router';
 
 export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
@@ -132,6 +133,41 @@ export default function ProfileScreen() {
           <ThemedText style={styles.userEmail}>{user.email}</ThemedText>
           <View style={[styles.badge, { backgroundColor: tintColor }]}>
             <ThemedText style={styles.badgeText}>FREE</ThemedText>
+          </View>
+        </View>
+
+        {/* New Features */}
+        <View style={styles.section}>
+          <ThemedText type="subtitle" style={styles.sectionTitle}>
+            ✨ New Features
+          </ThemedText>
+          <View style={[styles.card, { borderColor }]}>
+            <Pressable
+              style={[styles.featureRow, { borderBottomColor: borderColor }]}
+              onPress={() => router.push('/prompt-builder' as any)}
+            >
+              <ThemedText style={styles.featureIcon}>🎨</ThemedText>
+              <View style={styles.featureInfo}>
+                <ThemedText type="defaultSemiBold">Smart Prompt Builder</ThemedText>
+                <ThemedText style={styles.featureDescription}>
+                  Build prompts with visual components
+                </ThemedText>
+              </View>
+              <IconSymbol name="chevron.right" size={16} color={borderColor} />
+            </Pressable>
+            <Pressable
+              style={styles.featureRow}
+              onPress={() => router.push('/style-library' as any)}
+            >
+              <ThemedText style={styles.featureIcon}>🎭</ThemedText>
+              <View style={styles.featureInfo}>
+                <ThemedText type="defaultSemiBold">Style Library</ThemedText>
+                <ThemedText style={styles.featureDescription}>
+                  Save and reuse visual styles
+                </ThemedText>
+              </View>
+              <IconSymbol name="chevron.right" size={16} color={borderColor} />
+            </Pressable>
           </View>
         </View>
 
@@ -399,5 +435,23 @@ const styles = StyleSheet.create({
     fontSize: 12,
     opacity: 0.4,
     marginBottom: 4,
+  },
+  featureRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    borderBottomWidth: 1,
+  },
+  featureIcon: {
+    fontSize: 24,
+    marginRight: 12,
+  },
+  featureInfo: {
+    flex: 1,
+  },
+  featureDescription: {
+    fontSize: 13,
+    opacity: 0.6,
+    marginTop: 2,
   },
 });

@@ -81,6 +81,8 @@ export default function RootLayout() {
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen name="modal" options={{ presentation: "modal", title: "Modal" }} />
               <Stack.Screen name="admin" options={{ presentation: "modal", title: "Admin Panel" }} />
+              <Stack.Screen name="prompt-builder" options={{ headerShown: false, presentation: "modal" }} />
+              <Stack.Screen name="style-library" options={{ headerShown: false, presentation: "modal" }} />
               <Stack.Screen name="oauth/callback" options={{ headerShown: false }} />
             </Stack>
             <StatusBar style="auto" />
