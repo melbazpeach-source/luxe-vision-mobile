@@ -27,7 +27,7 @@ export default function MuseScreen() {
   const backgroundColor = useThemeColor({}, 'background');
   const textColor = useThemeColor({}, 'text');
   const tintColor = useThemeColor({}, 'tint');
-  const borderColor = useThemeColor({ light: '#E0E0E0', dark: '#333' }, 'icon');
+  const borderColor = useThemeColor({ light: '#E5E4E2', dark: '#333333' }, 'icon');
 
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -198,7 +198,7 @@ export default function MuseScreen() {
               (!input.trim() || isTyping) && styles.sendButtonDisabled,
             ]}
           >
-            <IconSymbol name="paperplane.fill" size={20} color="#fff" />
+            <IconSymbol name="paperplane.fill" size={20} color="#000000" />
           </Pressable>
         </View>
       </ThemedView>

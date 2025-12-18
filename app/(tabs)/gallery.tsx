@@ -23,7 +23,7 @@ const CARD_WIDTH = (width - 48) / 2; // 2 columns with 16px padding and 16px gap
 export default function GalleryScreen() {
   const insets = useSafeAreaInsets();
   const { user } = useAuth();
-  const borderColor = useThemeColor({ light: '#E0E0E0', dark: '#333' }, 'icon');
+  const borderColor = useThemeColor({ light: '#E5E4E2', dark: '#333333' }, 'icon');
   const tintColor = useThemeColor({}, 'tint');
 
   const [creations, setCreations] = useState<Creation[]>([]);
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   loginButtonText: {
-    color: '#fff',
+    color: '#000000',
     fontSize: 16,
     fontWeight: '600',
   },

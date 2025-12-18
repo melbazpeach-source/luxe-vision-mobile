@@ -22,7 +22,7 @@ export default function ProfileScreen() {
   const backgroundColor = useThemeColor({}, 'background');
   const textColor = useThemeColor({}, 'text');
   const tintColor = useThemeColor({}, 'tint');
-  const borderColor = useThemeColor({ light: '#E0E0E0', dark: '#333' }, 'icon');
+  const borderColor = useThemeColor({ light: '#E5E4E2', dark: '#333333' }, 'icon');
   const colorScheme = useColorScheme();
 
   const [darkMode, setDarkMode] = useState(colorScheme === 'dark');
@@ -224,7 +224,7 @@ export default function ProfileScreen() {
             style={[styles.logoutButton, { borderColor }]}
             onPress={handleLogout}
           >
-            <ThemedText style={[styles.logoutButtonText, { color: '#FF3B30' }]}>
+            <ThemedText style={styles.logoutButtonText}>
               Logout
             </ThemedText>
           </Pressable>
@@ -337,7 +337,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   upgradeButtonText: {
-    color: '#fff',
+    color: '#000000',
     fontSize: 16,
     fontWeight: '600',
   },

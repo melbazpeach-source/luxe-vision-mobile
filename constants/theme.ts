@@ -5,24 +5,24 @@
 
 import { Platform } from "react-native";
 
-const tintColorLight = "#0a7ea4";
-const tintColorDark = "#fff";
+const tintColorLight = "#E5E4E2"; // Luxe platinum silver
+const tintColorDark = "#E5E4E2"; // Luxe platinum silver
 
 export const Colors = {
   light: {
-    text: "#11181C",
-    background: "#fff",
-    tint: tintColorLight,
-    icon: "#687076",
-    tabIconDefault: "#687076",
+    text: "#000000", // Luxe ink black
+    background: "#FFFFFF",
+    tint: tintColorLight, // Platinum silver
+    icon: "#666666",
+    tabIconDefault: "#666666",
     tabIconSelected: tintColorLight,
   },
   dark: {
-    text: "#ECEDEE",
-    background: "#151718",
-    tint: tintColorDark,
-    icon: "#9BA1A6",
-    tabIconDefault: "#9BA1A6",
+    text: "#E5E4E2", // Platinum silver text
+    background: "#000000", // Pure black background
+    tint: tintColorDark, // Platinum silver
+    icon: "#999999",
+    tabIconDefault: "#999999",
     tabIconSelected: tintColorDark,
   },
 };
