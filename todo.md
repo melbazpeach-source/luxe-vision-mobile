@@ -83,3 +83,10 @@
 - [x] Update UI styling to match GitHub repository exactly
 - [x] Copy logo to all required locations (icon, splash, favicon, android icons)
 - [x] Update app.config.ts with new logo URL
+
+## Demo Mode
+
+- [x] Add demo/bypass mode for testing without authentication
+- [x] Create mock demo user with full access
+- [x] Allow all features to work without login
+- [x] Create welcome screen with demo mode button

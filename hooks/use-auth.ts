@@ -2,6 +2,7 @@ import * as Api from "@/lib/api";
 import * as Auth from "@/lib/auth";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Platform } from "react-native";
+import { useDemoMode, DEMO_USER } from "@/hooks/use-demo-mode";
 
 type UseAuthOptions = {
   autoFetch?: boolean;
@@ -9,6 +10,7 @@ type UseAuthOptions = {
 
 export function useAuth(options?: UseAuthOptions) {
   const { autoFetch = true } = options ?? {};
+  const { isDemoMode, loading: demoLoading } = useDemoMode();
   const [user, setUser] = useState<Auth.User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -97,8 +99,17 @@ export function useAuth(options?: UseAuthOptions) {
   const isAuthenticated = useMemo(() => Boolean(user), [user]);
 
   useEffect(() => {
-    console.log("[useAuth] useEffect triggered, autoFetch:", autoFetch, "platform:", Platform.OS);
-    if (autoFetch) {
+    console.log("[useAuth] useEffect triggered, autoFetch:", autoFetch, "platform:", Platform.OS, "isDemoMode:", isDemoMode);
+    
+    // If demo mode is enabled, set demo user immediately
+    if (isDemoMode && !demoLoading) {
+      console.log("[useAuth] Demo mode enabled, setting demo user");
+      setUser(DEMO_USER);
+      setLoading(false);
+      return;
+    }
+    
+    if (autoFetch && !demoLoading) {
       if (Platform.OS === "web") {
         // Web: fetch user from API directly (user will login manually if needed)
         console.log("[useAuth] Web: fetching user from API...");
@@ -121,7 +132,7 @@ export function useAuth(options?: UseAuthOptions) {
       console.log("[useAuth] autoFetch disabled, setting loading to false");
       setLoading(false);
     }
-  }, [autoFetch, fetchUser]);
+  }, [autoFetch, fetchUser, isDemoMode, demoLoading]);
 
   useEffect(() => {
     console.log("[useAuth] State updated:", {
