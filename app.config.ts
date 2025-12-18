@@ -12,11 +12,11 @@ const schemeFromBundleId = `manus${timestamp}`;
 
 const env = {
   // App branding - update these values directly (do not use env vars)
-  appName: 'Luxe Vision Creator Mobile',
-  appSlug: 'luxe-vision-mobile',
+  appName: 'Luxe Vision',
+  appSlug: '{{project_name}}',
   // S3 URL of the app logo - set this to the URL returned by generate_image when creating custom logo
   // Leave empty to use the default icon from assets/images/icon.png
-  logoUrl: '',
+  logoUrl: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663253878655/pmutqUNNvllwccsz.png',
   scheme: schemeFromBundleId,
   iosBundleId: bundleId,
   androidPackage: bundleId,
