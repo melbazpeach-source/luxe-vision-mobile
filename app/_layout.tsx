@@ -83,6 +83,9 @@ export default function RootLayout() {
               <Stack.Screen name="admin" options={{ presentation: "modal", title: "Admin Panel" }} />
               <Stack.Screen name="prompt-builder" options={{ headerShown: false, presentation: "modal" }} />
               <Stack.Screen name="style-library" options={{ headerShown: false, presentation: "modal" }} />
+              <Stack.Screen name="prompt-history" options={{ headerShown: false, presentation: "modal" }} />
+              <Stack.Screen name="style-mixer" options={{ headerShown: false, presentation: "modal" }} />
+              <Stack.Screen name="workspace" options={{ headerShown: false, presentation: "modal" }} />
               <Stack.Screen name="oauth/callback" options={{ headerShown: false }} />
             </Stack>
             <StatusBar style="auto" />

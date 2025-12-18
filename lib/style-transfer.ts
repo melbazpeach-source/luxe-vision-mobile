@@ -181,6 +181,86 @@ export function applyRemixVariation(
 }
 
 // Get suggested styles based on prompt
+// Mix multiple styles with blend ratios
+export interface StyleMix {
+  styles: { styleId: string; ratio: number }[];
+  name: string;
+}
+
+export function mixStyles(
+  styles: StyleReference[],
+  ratios: number[]
+): StyleReference['extractedFeatures'] {
+  if (styles.length !== ratios.length) {
+    throw new Error('Styles and ratios arrays must have the same length');
+  }
+
+  // Normalize ratios to sum to 100
+  const total = ratios.reduce((sum, r) => sum + r, 0);
+  const normalizedRatios = ratios.map(r => r / total);
+
+  // Mix color palettes
+  const allColors: string[] = [];
+  styles.forEach((style, index) => {
+    const count = Math.round(style.extractedFeatures.colorPalette.length * normalizedRatios[index]);
+    allColors.push(...style.extractedFeatures.colorPalette.slice(0, count));
+  });
+
+  // Mix text features (weighted by ratio)
+  const mixedFeatures: StyleReference['extractedFeatures'] = {
+    colorPalette: allColors.slice(0, 5),
+    lighting: '',
+    composition: '',
+    mood: '',
+    artStyle: '',
+  };
+
+  // Find dominant style (highest ratio)
+  const dominantIndex = normalizedRatios.indexOf(Math.max(...normalizedRatios));
+  const dominantStyle = styles[dominantIndex];
+
+  // Use dominant style's text features as base
+  mixedFeatures.lighting = dominantStyle.extractedFeatures.lighting;
+  mixedFeatures.composition = dominantStyle.extractedFeatures.composition;
+  mixedFeatures.mood = dominantStyle.extractedFeatures.mood;
+
+  // Blend art styles
+  const artStyles = styles.map((s, i) => {
+    if (normalizedRatios[i] > 0.2) {
+      return s.extractedFeatures.artStyle;
+    }
+    return null;
+  }).filter(Boolean);
+  mixedFeatures.artStyle = artStyles.join(' mixed with ');
+
+  return mixedFeatures;
+}
+
+export function applyMixedStylesToPrompt(
+  basePrompt: string,
+  mixedFeatures: StyleReference['extractedFeatures'],
+  intensity: number = 100
+): string {
+  const intensityFactor = intensity / 100;
+  const styleModifiers: string[] = [];
+
+  if (intensityFactor > 0.3) {
+    styleModifiers.push(mixedFeatures.lighting);
+  }
+
+  if (intensityFactor > 0.5) {
+    styleModifiers.push(mixedFeatures.mood);
+    styleModifiers.push(mixedFeatures.composition);
+  }
+
+  if (intensityFactor > 0.7) {
+    styleModifiers.push(mixedFeatures.artStyle);
+    styleModifiers.push(`color palette: ${mixedFeatures.colorPalette.join(', ')}`);
+  }
+
+  return `${basePrompt}, ${styleModifiers.join(', ')}`;
+}
+
 export function suggestStylesForPrompt(prompt: string): string[] {
   const lowerPrompt = prompt.toLowerCase();
   const suggestions: string[] = [];

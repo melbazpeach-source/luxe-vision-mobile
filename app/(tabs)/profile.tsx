@@ -156,7 +156,7 @@ export default function ProfileScreen() {
               <IconSymbol name="chevron.right" size={16} color={borderColor} />
             </Pressable>
             <Pressable
-              style={styles.featureRow}
+              style={[styles.featureRow, { borderBottomColor: borderColor }]}
               onPress={() => router.push('/style-library' as any)}
             >
               <ThemedText style={styles.featureIcon}>🎭</ThemedText>
@@ -164,6 +164,45 @@ export default function ProfileScreen() {
                 <ThemedText type="defaultSemiBold">Style Library</ThemedText>
                 <ThemedText style={styles.featureDescription}>
                   Save and reuse visual styles
+                </ThemedText>
+              </View>
+              <IconSymbol name="chevron.right" size={16} color={borderColor} />
+            </Pressable>
+            <Pressable
+              style={[styles.featureRow, { borderBottomColor: borderColor }]}
+              onPress={() => router.push('/prompt-history' as any)}
+            >
+              <ThemedText style={styles.featureIcon}>📜</ThemedText>
+              <View style={styles.featureInfo}>
+                <ThemedText type="defaultSemiBold">Prompt History</ThemedText>
+                <ThemedText style={styles.featureDescription}>
+                  Search and reuse past prompts
+                </ThemedText>
+              </View>
+              <IconSymbol name="chevron.right" size={16} color={borderColor} />
+            </Pressable>
+            <Pressable
+              style={[styles.featureRow, { borderBottomColor: borderColor }]}
+              onPress={() => router.push('/style-mixer' as any)}
+            >
+              <ThemedText style={styles.featureIcon}>🎨</ThemedText>
+              <View style={styles.featureInfo}>
+                <ThemedText type="defaultSemiBold">Style Mixer</ThemedText>
+                <ThemedText style={styles.featureDescription}>
+                  Blend multiple styles with ratios
+                </ThemedText>
+              </View>
+              <IconSymbol name="chevron.right" size={16} color={borderColor} />
+            </Pressable>
+            <Pressable
+              style={styles.featureRow}
+              onPress={() => router.push('/workspace' as any)}
+            >
+              <ThemedText style={styles.featureIcon}>👥</ThemedText>
+              <View style={styles.featureInfo}>
+                <ThemedText type="defaultSemiBold">Collaboration</ThemedText>
+                <ThemedText style={styles.featureDescription}>
+                  Real-time team workspaces
                 </ThemedText>
               </View>
               <IconSymbol name="chevron.right" size={16} color={borderColor} />
