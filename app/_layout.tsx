@@ -86,6 +86,8 @@ export default function RootLayout() {
               <Stack.Screen name="prompt-history" options={{ headerShown: false, presentation: "modal" }} />
               <Stack.Screen name="style-mixer" options={{ headerShown: false, presentation: "modal" }} />
               <Stack.Screen name="workspace" options={{ headerShown: false, presentation: "modal" }} />
+              <Stack.Screen name="ar-preview" options={{ headerShown: false, presentation: "fullScreenModal" }} />
+              <Stack.Screen name="animation-timeline" options={{ headerShown: false, presentation: "modal" }} />
               <Stack.Screen name="oauth/callback" options={{ headerShown: false }} />
             </Stack>
             <StatusBar style="auto" />

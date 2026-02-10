@@ -136,10 +136,45 @@ export default function ProfileScreen() {
           </View>
         </View>
 
-        {/* New Features */}
+        {/* Innovative Features */}
         <View style={styles.section}>
           <ThemedText type="subtitle" style={styles.sectionTitle}>
-            ✨ New Features
+            🚀 Innovative Features
+          </ThemedText>
+          <View style={[styles.card, { borderColor }]}>
+            <Pressable
+              style={[styles.featureRow, { borderBottomColor: borderColor }]}
+              onPress={() => router.push('/animation-timeline' as any)}
+            >
+              <ThemedText style={styles.featureIcon}>🎬</ThemedText>
+              <View style={styles.featureInfo}>
+                <ThemedText type="defaultSemiBold">Animation Timeline</ThemedText>
+                <ThemedText style={styles.featureDescription}>
+                  Multi-scene narratives with audio-reactive generation
+                </ThemedText>
+              </View>
+              <IconSymbol name="chevron.right" size={16} color={borderColor} />
+            </Pressable>
+            <Pressable
+              style={styles.featureRow}
+              onPress={() => router.push('/ar-preview' as any)}
+            >
+              <ThemedText style={styles.featureIcon}>📱</ThemedText>
+              <View style={styles.featureInfo}>
+                <ThemedText type="defaultSemiBold">AR Preview</ThemedText>
+                <ThemedText style={styles.featureDescription}>
+                  Place creations in real-world with Snap Lens export
+                </ThemedText>
+              </View>
+              <IconSymbol name="chevron.right" size={16} color={borderColor} />
+            </Pressable>
+          </View>
+        </View>
+
+        {/* Enhancement Features */}
+        <View style={styles.section}>
+          <ThemedText type="subtitle" style={styles.sectionTitle}>
+            ✨ Enhancement Features
           </ThemedText>
           <View style={[styles.card, { borderColor }]}>
             <Pressable
