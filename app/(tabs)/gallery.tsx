@@ -16,15 +16,18 @@ import { useAuth } from '@/hooks/use-auth';
 import { fetchCreations } from '@/lib/data-service';
 import { Creation } from '@/types';
 import { router } from 'expo-router';
-
-const { width } = Dimensions.get('window');
-const CARD_WIDTH = (width - 48) / 2; // 2 columns with 16px padding and 16px gap
+import { useBreakpoint } from '@/hooks/use-breakpoint';
+import { useWindowDimensions } from 'react-native';
 
 export default function GalleryScreen() {
   const insets = useSafeAreaInsets();
   const { user } = useAuth();
   const borderColor = useThemeColor({ light: '#E5E4E2', dark: '#333333' }, 'icon');
   const tintColor = useThemeColor({}, 'tint');
+  const { galleryColumns, isWide, contentMaxWidth } = useBreakpoint();
+  const { width: screenWidth } = useWindowDimensions();
+  const contentWidth = isWide ? Math.min(contentMaxWidth, screenWidth - 240) : screenWidth;
+  const CARD_WIDTH = (contentWidth - 48) / galleryColumns;
 
   const [creations, setCreations] = useState<Creation[]>([]);
   const [loading, setLoading] = useState(true);
@@ -149,7 +152,8 @@ export default function GalleryScreen() {
           data={filteredCreations}
           renderItem={renderCreation}
           keyExtractor={(item) => item.id}
-          numColumns={2}
+          numColumns={galleryColumns}
+          key={galleryColumns}
           contentContainerStyle={[
             styles.grid,
             { paddingBottom: Math.max(insets.bottom + 80, 100) },
@@ -202,7 +206,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   card: {
-    width: CARD_WIDTH,
+    flex: 1,
     borderRadius: 12,
     borderWidth: 1,
     overflow: 'hidden',

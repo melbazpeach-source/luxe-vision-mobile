@@ -19,8 +19,7 @@ import { generateImage, generateVideo, analyzeImage, generateSpeech } from '@/li
 import { saveCreation } from '@/lib/data-service';
 import { useAuth } from '@/hooks/use-auth';
 import * as Haptics from 'expo-haptics';
-
-const { width } = Dimensions.get('window');
+import { useBreakpoint } from '@/hooks/use-breakpoint';
 
 export default function StudioScreen() {
   const insets = useSafeAreaInsets();
@@ -29,6 +28,7 @@ export default function StudioScreen() {
   const textColor = useThemeColor({}, 'text');
   const tintColor = useThemeColor({}, 'tint');
   const borderColor = useThemeColor({ light: '#E0E0E0', dark: '#333' }, 'icon');
+  const { isWide, isDesktop, contentMaxWidth } = useBreakpoint();
 
   const [mode, setMode] = useState<MediaType>('image');
   const [prompt, setPrompt] = useState('');
@@ -128,8 +128,114 @@ export default function StudioScreen() {
     }
   };
 
+  const Controls = () => (
+    <>
+      <View style={styles.header}>
+        <ThemedText type="title" style={styles.title}>Luxe Studio</ThemedText>
+        <ThemedText style={styles.subtitle}>Create with AI-powered tools</ThemedText>
+      </View>
+
+      <View style={styles.section}>
+        <ThemedText type="subtitle" style={styles.sectionTitle}>Mode</ThemedText>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.modeScroll}>
+          {modes.map((m) => (
+            <Pressable key={m.type} onPress={() => setMode(m.type)}
+              style={[styles.modeButton, { borderColor }, mode === m.type && { backgroundColor: tintColor, borderColor: tintColor }]}>
+              <ThemedText style={[styles.modeButtonText, mode === m.type && { color: '#000' }]}>{m.label}</ThemedText>
+            </Pressable>
+          ))}
+        </ScrollView>
+      </View>
+
+      <View style={styles.section}>
+        <View style={styles.promptHeader}>
+          <ThemedText style={styles.label}>Prompt</ThemedText>
+          <Pressable style={[styles.builderButton, { backgroundColor: tintColor }]} onPress={() => router.push('/prompt-builder' as any)}>
+            <ThemedText style={styles.builderButtonText}>✨ Smart Builder</ThemedText>
+          </Pressable>
+        </View>
+        <TextInput
+          style={[styles.promptInput, { backgroundColor, color: textColor, borderColor }]}
+          placeholder="Describe what you want to create..."
+          placeholderTextColor={borderColor}
+          value={prompt}
+          onChangeText={setPrompt}
+          multiline
+          numberOfLines={isWide ? 6 : 4}
+          textAlignVertical="top"
+        />
+      </View>
+
+      {mode === 'image' && (
+        <>
+          <View style={styles.section}>
+            <ThemedText type="subtitle" style={styles.sectionTitle}>Size</ThemedText>
+            <View style={styles.optionRow}>
+              {imageSizes.map((size) => (
+                <Pressable key={size} onPress={() => setImageSize(size)}
+                  style={[styles.optionButton, { borderColor }, imageSize === size && { backgroundColor: tintColor, borderColor: tintColor }]}>
+                  <ThemedText style={[styles.optionButtonText, imageSize === size && { color: '#000' }]}>{size}</ThemedText>
+                </Pressable>
+              ))}
+            </View>
+          </View>
+          <View style={styles.section}>
+            <ThemedText type="subtitle" style={styles.sectionTitle}>Aspect Ratio</ThemedText>
+            <View style={styles.optionRow}>
+              {aspectRatios.map((ratio) => (
+                <Pressable key={ratio} onPress={() => setAspectRatio(ratio)}
+                  style={[styles.optionButton, { borderColor }, aspectRatio === ratio && { backgroundColor: tintColor, borderColor: tintColor }]}>
+                  <ThemedText style={[styles.optionButtonText, aspectRatio === ratio && { color: '#000' }]}>{ratio}</ThemedText>
+                </Pressable>
+              ))}
+            </View>
+          </View>
+        </>
+      )}
+      {mode === 'video' && (
+        <View style={styles.section}>
+          <ThemedText type="subtitle" style={styles.sectionTitle}>Resolution</ThemedText>
+          <View style={styles.optionRow}>
+            {videoResolutions.map((res) => (
+              <Pressable key={res} onPress={() => setVideoResolution(res)}
+                style={[styles.optionButton, { borderColor }, videoResolution === res && { backgroundColor: tintColor, borderColor: tintColor }]}>
+                <ThemedText style={[styles.optionButtonText, videoResolution === res && { color: '#000' }]}>{res}</ThemedText>
+              </Pressable>
+            ))}
+          </View>
+        </View>
+      )}
+    </>
+  );
+
   return (
     <ThemedView style={styles.container}>
+      {isWide ? (
+        <ScrollView contentContainerStyle={[styles.scrollContent, { paddingTop: 32, paddingBottom: 40, paddingHorizontal: 40 }]}>
+          <View style={styles.desktopGrid}>
+            <View style={styles.desktopLeft}>
+              <Controls />
+              <Pressable onPress={handleGenerate} disabled={isGenerating}
+                style={[styles.generateButton, { backgroundColor: tintColor }, isGenerating && styles.generateButtonDisabled]}>
+                {isGenerating ? <ActivityIndicator color="#000" /> : <ThemedText style={styles.generateButtonText}>Generate</ThemedText>}
+              </Pressable>
+            </View>
+            <View style={styles.desktopRight}>
+              <ThemedText type="subtitle" style={[styles.sectionTitle, { marginBottom: 16 }]}>Preview</ThemedText>
+              <View style={[styles.desktopPreview, { borderColor }]}>
+                {generatedUrl ? (
+                  <Image source={{ uri: generatedUrl }} style={styles.previewImage} />
+                ) : (
+                  <View style={styles.previewPlaceholder}>
+                    <ThemedText style={{ fontSize: 56 }}>✦</ThemedText>
+                    <ThemedText style={{ opacity: 0.4, marginTop: 16, textAlign: 'center' }}>Your creation will appear here</ThemedText>
+                  </View>
+                )}
+              </View>
+            </View>
+          </View>
+        </ScrollView>
+      ) : (
       <ScrollView
         contentContainerStyle={[
           styles.scrollContent,
@@ -139,201 +245,27 @@ export default function StudioScreen() {
           },
         ]}
       >
-        {/* Header */}
-        <View style={styles.header}>
-          <ThemedText type="title" style={styles.title}>
-            Luxe Studio
-          </ThemedText>
-          <ThemedText style={styles.subtitle}>
-            Create with AI-powered tools
-          </ThemedText>
-        </View>
-
-        {/* Mode Selector */}
-        <View style={styles.section}>
-          <ThemedText type="subtitle" style={styles.sectionTitle}>
-            Mode
-          </ThemedText>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.modeScroll}>
-            {modes.map((m) => (
-              <Pressable
-                key={m.type}
-                onPress={() => setMode(m.type)}
-                style={[
-                  styles.modeButton,
-                  { borderColor },
-                  mode === m.type && { backgroundColor: tintColor, borderColor: tintColor },
-                ]}
-              >
-                <ThemedText
-                  style={[
-                    styles.modeButtonText,
-                    mode === m.type && { color: '#fff' },
-                  ]}
-                >
-                  {m.label}
-                </ThemedText>
-              </Pressable>
-            ))}
-          </ScrollView>
-        </View>
-
-        {/* Prompt Input */}
-      <View style={styles.section}>
-        <View style={styles.promptHeader}>
-          <ThemedText style={styles.label}>Prompt</ThemedText>
-          <Pressable
-            style={[styles.builderButton, { backgroundColor: tintColor }]}
-            onPress={() => router.push('/prompt-builder' as any)}
-          >
-            <ThemedText style={styles.builderButtonText}>✨ Smart Builder</ThemedText>
-          </Pressable>
-        </View>
-        <TextInput
-            style={[
-              styles.promptInput,
-              { backgroundColor, color: textColor, borderColor },
-            ]}
-            placeholder="Describe what you want to create..."
-            placeholderTextColor={borderColor}
-            value={prompt}
-            onChangeText={setPrompt}
-            multiline
-            numberOfLines={4}
-            textAlignVertical="top"
-          />
-        </View>
-
-        {/* Settings */}
-        {mode === 'image' && (
-          <>
-            <View style={styles.section}>
-              <ThemedText type="subtitle" style={styles.sectionTitle}>
-                Size
-              </ThemedText>
-              <View style={styles.optionRow}>
-                {imageSizes.map((size) => (
-                  <Pressable
-                    key={size}
-                    onPress={() => setImageSize(size)}
-                    style={[
-                      styles.optionButton,
-                      { borderColor },
-                      imageSize === size && { backgroundColor: tintColor, borderColor: tintColor },
-                    ]}
-                  >
-                    <ThemedText
-                      style={[
-                        styles.optionButtonText,
-                        imageSize === size && { color: '#fff' },
-                      ]}
-                    >
-                      {size}
-                    </ThemedText>
-                  </Pressable>
-                ))}
-              </View>
-            </View>
-
-            <View style={styles.section}>
-              <ThemedText type="subtitle" style={styles.sectionTitle}>
-                Aspect Ratio
-              </ThemedText>
-              <View style={styles.optionRow}>
-                {aspectRatios.map((ratio) => (
-                  <Pressable
-                    key={ratio}
-                    onPress={() => setAspectRatio(ratio)}
-                    style={[
-                      styles.optionButton,
-                      { borderColor },
-                      aspectRatio === ratio && { backgroundColor: tintColor, borderColor: tintColor },
-                    ]}
-                  >
-                    <ThemedText
-                      style={[
-                        styles.optionButtonText,
-                        aspectRatio === ratio && { color: '#fff' },
-                      ]}
-                    >
-                      {ratio}
-                    </ThemedText>
-                  </Pressable>
-                ))}
-              </View>
-            </View>
-          </>
-        )}
-
-        {mode === 'video' && (
-          <View style={styles.section}>
-            <ThemedText type="subtitle" style={styles.sectionTitle}>
-              Resolution
-            </ThemedText>
-            <View style={styles.optionRow}>
-              {videoResolutions.map((res) => (
-                <Pressable
-                  key={res}
-                  onPress={() => setVideoResolution(res)}
-                  style={[
-                    styles.optionButton,
-                    { borderColor },
-                    videoResolution === res && { backgroundColor: tintColor, borderColor: tintColor },
-                  ]}
-                >
-                  <ThemedText
-                    style={[
-                      styles.optionButtonText,
-                      videoResolution === res && { color: '#fff' },
-                    ]}
-                  >
-                    {res}
-                  </ThemedText>
-                </Pressable>
-              ))}
-            </View>
-          </View>
-        )}
-
-        {/* Preview Area */}
+        <Controls />
         {generatedUrl && (
           <View style={styles.section}>
-            <ThemedText type="subtitle" style={styles.sectionTitle}>
-              Preview
-            </ThemedText>
+            <ThemedText type="subtitle" style={styles.sectionTitle}>Preview</ThemedText>
             <View style={[styles.previewContainer, { borderColor }]}>
               <Image source={{ uri: generatedUrl }} style={styles.previewImage} />
             </View>
           </View>
         )}
       </ScrollView>
+      )}
 
-      {/* Generate Button (Fixed at bottom) */}
-      <View
-        style={[
-          styles.generateButtonContainer,
-          {
-            paddingBottom: Math.max(insets.bottom, 16),
-            backgroundColor,
-          },
-        ]}
-      >
-        <Pressable
-          onPress={handleGenerate}
-          disabled={isGenerating}
-          style={[
-            styles.generateButton,
-            { backgroundColor: tintColor },
-            isGenerating && styles.generateButtonDisabled,
-          ]}
-        >
-          {isGenerating ? (
-            <ActivityIndicator color="#fff" />
-          ) : (
-            <ThemedText style={styles.generateButtonText}>Generate</ThemedText>
-          )}
-        </Pressable>
-      </View>
+      {/* Generate Button (Fixed at bottom, mobile only) */}
+      {!isWide && (
+        <View style={[styles.generateButtonContainer, { paddingBottom: Math.max(insets.bottom, 16), backgroundColor }]}>
+          <Pressable onPress={handleGenerate} disabled={isGenerating}
+            style={[styles.generateButton, { backgroundColor: tintColor }, isGenerating && styles.generateButtonDisabled]}>
+            {isGenerating ? <ActivityIndicator color="#000" /> : <ThemedText style={styles.generateButtonText}>Generate</ThemedText>}
+          </Pressable>
+        </View>
+      )}
     </ThemedView>
   );
 }
@@ -438,6 +370,37 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     borderTopWidth: 1,
     borderTopColor: 'rgba(0, 0, 0, 0.1)',
+  },
+  desktopGrid: {
+    flexDirection: 'row',
+    gap: 40,
+    alignItems: 'flex-start',
+  },
+  desktopLeft: {
+    flex: 1,
+    minWidth: 320,
+    maxWidth: 480,
+  },
+  desktopRight: {
+    flex: 1,
+  },
+  desktopPreview: {
+    borderWidth: 1,
+    borderRadius: 16,
+    overflow: 'hidden',
+    aspectRatio: 16 / 9,
+    minHeight: 300,
+  },
+  previewPlaceholder: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 300,
+  },
+  modeRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
   },
   generateButton: {
     paddingVertical: 16,

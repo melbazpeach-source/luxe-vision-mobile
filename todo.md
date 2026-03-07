@@ -153,3 +153,14 @@
 - [x] Fix "Demo User" name — should show "Vanessa" in demo mode
 - [x] Fix light/white background on Profile screen — should be dark (Luxe theme)
 - [x] Fix FREE badge styling — should match Luxe platinum design
+
+## Responsive Design
+
+- [ ] Create useBreakpoint hook for screen size detection
+- [ ] Build desktop sidebar navigation component
+- [ ] Update tab layout to use sidebar on desktop
+- [ ] Make Studio screen responsive (2-column on desktop)
+- [ ] Make Gallery screen responsive (grid adapts to screen width)
+- [ ] Make Muse screen responsive (wider chat layout on desktop)
+- [ ] Make Profile screen responsive (2-column on desktop)
+- [ ] Update welcome screen for desktop
