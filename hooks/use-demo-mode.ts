@@ -52,8 +52,8 @@ export function useDemoMode() {
 export const DEMO_USER = {
   id: 999,
   openId: 'demo_user',
-  name: 'Demo User',
-  email: 'demo@luxevision.app',
+  name: 'Vanessa',
+  email: 'vanessa@luxe.studio',
   loginMethod: 'demo',
   lastSignedIn: new Date(),
 };

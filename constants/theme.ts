@@ -10,11 +10,11 @@ const tintColorDark = "#E5E4E2"; // Luxe platinum silver
 
 export const Colors = {
   light: {
-    text: "#000000", // Luxe ink black
-    background: "#FFFFFF",
+    text: "#E5E4E2", // Platinum silver text
+    background: "#000000", // Pure black background (Luxe dark theme)
     tint: tintColorLight, // Platinum silver
-    icon: "#666666",
-    tabIconDefault: "#666666",
+    icon: "#999999",
+    tabIconDefault: "#999999",
     tabIconSelected: tintColorLight,
   },
   dark: {

@@ -131,8 +131,8 @@ export default function ProfileScreen() {
             {user.name || user.email || 'User'}
           </ThemedText>
           <ThemedText style={styles.userEmail}>{user.email}</ThemedText>
-          <View style={[styles.badge, { backgroundColor: tintColor }]}>
-            <ThemedText style={styles.badgeText}>FREE</ThemedText>
+          <View style={[styles.badge, { backgroundColor: 'transparent', borderColor: tintColor, borderWidth: 1 }]}>
+            <ThemedText style={[styles.badgeText, { color: tintColor }]}>FREE PLAN</ThemedText>
           </View>
         </View>
 
@@ -159,7 +159,7 @@ export default function ProfileScreen() {
               style={styles.featureRow}
               onPress={() => router.push('/ar-preview' as any)}
             >
-              <ThemedText style={styles.featureIcon}>📱</ThemedText>
+              <ThemedText style={styles.featureIcon}>🥽</ThemedText>
               <View style={styles.featureInfo}>
                 <ThemedText type="defaultSemiBold">AR Preview</ThemedText>
                 <ThemedText style={styles.featureDescription}>

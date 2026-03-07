@@ -139,3 +139,17 @@
 - [x] Add generation queue visible to all members
 - [x] Create real-time activity feed
 - [x] Add workspace settings and permissions
+
+## Next Steps
+
+- [ ] Pre-populate sample gallery with demo creations
+- [ ] Create 3-screen onboarding tutorial
+- [ ] Real Gemini 3 Pro API integration
+- [ ] Real Veo video generation API integration
+
+## Bug Fixes
+
+- [x] Fix wrong icons for AR Preview and Animation Timeline in Profile screen
+- [x] Fix "Demo User" name — should show "Vanessa" in demo mode
+- [x] Fix light/white background on Profile screen — should be dark (Luxe theme)
+- [x] Fix FREE badge styling — should match Luxe platinum design
