@@ -3,6 +3,7 @@
 // to protect API keys and handle rate limiting.
 
 import { ImageSize, VideoResolution, AspectRatio, ImageModelId, VideoModelId } from '../types';
+import { ReferenceImage } from '@/components/reference-uploader';
 
 export interface GenerateImageParams {
   prompt: string;
@@ -10,6 +11,7 @@ export interface GenerateImageParams {
   aspectRatio: AspectRatio;
   modelId: ImageModelId;
   apiKey?: string;
+  references?: ReferenceImage[];
 }
 
 export interface GenerateVideoParams {
@@ -19,6 +21,26 @@ export interface GenerateVideoParams {
   modelId: VideoModelId;
   referenceImageUrl?: string;
   apiKey?: string;
+  references?: ReferenceImage[];
+}
+
+export interface GenerateAnimationParams {
+  prompt: string;
+  apiKey?: string;
+  references?: ReferenceImage[];
+}
+
+export interface GenerateSpeechParams {
+  text: string;
+  voice?: string;
+  apiKey?: string;
+  references?: ReferenceImage[];
+}
+
+export interface AnalyzeParams {
+  imageUrl?: string;
+  apiKey?: string;
+  references?: ReferenceImage[];
 }
 
 export interface GenerationResult {

@@ -164,3 +164,14 @@
 - [ ] Make Muse screen responsive (wider chat layout on desktop)
 - [ ] Make Profile screen responsive (2-column on desktop)
 - [ ] Update welcome screen for desktop
+
+## Reference Material Upload
+
+- [x] Build reusable ReferenceUploader component (up to 3 files, image preview, remove button)
+- [x] Add reference upload to Image generation mode
+- [x] Add reference upload to Video generation mode
+- [x] Add reference upload to Animation generation mode
+- [x] Add reference upload to Analysis mode
+- [x] Add reference upload to Speech mode
+- [x] Pass reference images to Gemini API as context
+- [x] Support both camera capture and photo library pick

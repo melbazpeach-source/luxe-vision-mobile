@@ -20,6 +20,7 @@ import { saveCreation } from '@/lib/data-service';
 import { useAuth } from '@/hooks/use-auth';
 import * as Haptics from 'expo-haptics';
 import { useBreakpoint } from '@/hooks/use-breakpoint';
+import { ReferenceUploader, ReferenceImage } from '@/components/reference-uploader';
 
 export default function StudioScreen() {
   const insets = useSafeAreaInsets();
@@ -37,6 +38,7 @@ export default function StudioScreen() {
   const [aspectRatio, setAspectRatio] = useState<AspectRatio>('16:9');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedUrl, setGeneratedUrl] = useState<string | null>(null);
+  const [references, setReferences] = useState<ReferenceImage[]>([]);
 
   const modes: { type: MediaType; label: string }[] = [
     { type: 'image', label: 'Image' },
@@ -72,21 +74,24 @@ export default function StudioScreen() {
           size: imageSize,
           aspectRatio,
           modelId: 'gemini-3-pro-image-preview',
+          references,
         });
       } else if (mode === 'video') {
         result = await generateVideo({
           prompt,
           resolution: videoResolution,
           duration: '5',
+          references,
           modelId: 'veo-3.1-generate-preview',
         });
       } else if (mode === 'analyze') {
-        if (!generatedUrl) {
-          alert('Please generate an image first to analyze');
+        const analyzeUrl = references[0]?.uri || generatedUrl;
+        if (!analyzeUrl) {
+          alert('Please add a reference image or generate an image first to analyze');
           setIsGenerating(false);
           return;
         }
-        const analysis = await analyzeImage(generatedUrl);
+        const analysis = await analyzeImage(analyzeUrl);
         alert(analysis);
         setIsGenerating(false);
         return;
@@ -163,6 +168,15 @@ export default function StudioScreen() {
           multiline
           numberOfLines={isWide ? 6 : 4}
           textAlignVertical="top"
+        />
+      </View>
+
+      <View style={styles.section}>
+        <ReferenceUploader
+          references={references}
+          onReferencesChange={setReferences}
+          maxCount={3}
+          label={mode === 'speech' ? 'Reference Audio/Script' : mode === 'analyze' ? 'Images to Analyze' : 'Reference Images'}
         />
       </View>
 
